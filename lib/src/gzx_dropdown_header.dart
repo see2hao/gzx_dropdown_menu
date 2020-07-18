@@ -79,6 +79,7 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader> with SingleTicker
     _menuCount = widget.items.length;
 
     var gridView = GridView.count(
+      padding: EdgeInsets.zero,
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: _menuCount,
       childAspectRatio: (_screenWidth / _menuCount) / widget.height,
