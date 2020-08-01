@@ -45,7 +45,8 @@ class GZXDropDownHeader extends StatefulWidget {
   _GZXDropDownHeaderState createState() => _GZXDropDownHeaderState();
 }
 
-class _GZXDropDownHeaderState extends State<GZXDropDownHeader> with SingleTickerProviderStateMixin {
+class _GZXDropDownHeaderState extends State<GZXDropDownHeader>
+    with SingleTickerProviderStateMixin {
   bool _isShowDropDownItemWidget = false;
   double _screenWidth;
   int _menuCount;
@@ -71,8 +72,10 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader> with SingleTicker
   Widget build(BuildContext context) {
 //    print('_GZXDropDownHeaderState.build');
 
-    _dropDownStyle = widget.dropDownStyle ?? TextStyle(color: Theme.of(context).primaryColor, fontSize: 13);
-    _iconDropDownColor = widget.iconDropDownColor ?? Theme.of(context).primaryColor;
+    _dropDownStyle = widget.dropDownStyle ??
+        TextStyle(color: Theme.of(context).primaryColor, fontSize: 13);
+    _iconDropDownColor =
+        widget.iconDropDownColor ?? Theme.of(context).primaryColor;
 
     MediaQueryData mediaQuery = MediaQuery.of(context);
     _screenWidth = mediaQuery.size.width;
@@ -93,7 +96,8 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader> with SingleTicker
       height: widget.height,
 //      padding: EdgeInsets.only(top: 1, bottom: 1),
       decoration: BoxDecoration(
-        border: Border.all(color: widget.borderColor, width: widget.borderWidth),
+        border:
+            Border.all(color: widget.borderColor, width: widget.borderWidth),
       ),
       child: gridView,
     );
@@ -109,37 +113,43 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader> with SingleTicker
     _isShowDropDownItemWidget = index == menuIndex && widget.controller.isShow;
 
     return GestureDetector(
-      onTap: () {
-        final RenderBox overlay = widget.stackKey.currentContext.findRenderObject();
+      onTap: item.hasOnPressed == true
+          ? () {
+              final RenderBox overlay =
+                  widget.stackKey.currentContext.findRenderObject();
 
-        final RenderBox dropDownItemRenderBox = _keyDropDownHeader.currentContext.findRenderObject();
+              final RenderBox dropDownItemRenderBox =
+                  _keyDropDownHeader.currentContext.findRenderObject();
 
-        var position = dropDownItemRenderBox.localToGlobal(Offset.zero, ancestor: overlay);
+              var position = dropDownItemRenderBox.localToGlobal(Offset.zero,
+                  ancestor: overlay);
 //        print("POSITION : $position ");
-        var size = dropDownItemRenderBox.size;
+              var size = dropDownItemRenderBox.size;
 //        print("SIZE : $size");
 
-        widget.controller.dropDownHeaderHeight = size.height + position.dy;
+              widget.controller.dropDownHeaderHeight =
+                  size.height + position.dy;
 
-        if (index == menuIndex) {
-          if (widget.controller.isShow) {
-            widget.controller.hide();
-          } else {
-            widget.controller.show(index);
-          }
-        } else {
-          if (widget.controller.isShow) {
-            widget.controller.hide(isShowHideAnimation: false);
-          }
-          widget.controller.show(index);
-        }
+              if (index == menuIndex) {
+                if (widget.controller.isShow) {
+                  widget.controller.hide();
+                } else {
+                  widget.controller.show(index);
+                }
+              } else {
+                if (widget.controller.isShow) {
+                  widget.controller.hide(isShowHideAnimation: false);
+                }
+                widget.controller.show(index);
+              }
 
-        if (widget.onItemTap != null) {
-          widget.onItemTap(index);
-        }
+              if (widget.onItemTap != null) {
+                widget.onItemTap(index);
+              }
 
-        setState(() {});
-      },
+              setState(() {});
+            }
+          : null,
       child: Container(
         color: widget.color,
         child: Row(
@@ -154,12 +164,18 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader> with SingleTicker
                       item.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: _isShowDropDownItemWidget ? _dropDownStyle : widget.style.merge(item.style),
+                      style: _isShowDropDownItemWidget
+                          ? _dropDownStyle
+                          : widget.style.merge(item.style),
                     ),
                   ),
                   Icon(
-                    !_isShowDropDownItemWidget ? item.iconData ?? Icons.arrow_drop_down : item.iconData ?? Icons.arrow_drop_up,
-                    color: _isShowDropDownItemWidget ? _iconDropDownColor : item?.style?.color ?? widget.iconColor,
+                    !_isShowDropDownItemWidget
+                        ? item.iconData ?? Icons.arrow_drop_down
+                        : item.iconData ?? Icons.arrow_drop_up,
+                    color: _isShowDropDownItemWidget
+                        ? _iconDropDownColor
+                        : item?.style?.color ?? widget.iconColor,
                     size: item.iconSize ?? widget.iconSize,
                   ),
                 ],
@@ -187,5 +203,8 @@ class GZXDropDownHeaderItem {
   final IconData iconData;
   final double iconSize;
   final TextStyle style;
-  GZXDropDownHeaderItem(this.title, {this.iconData, this.iconSize, this.style});
+  final bool hasOnPressed;
+
+  GZXDropDownHeaderItem(this.title,
+      {this.iconData, this.iconSize, this.style, this.hasOnPressed});
 }
