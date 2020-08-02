@@ -169,7 +169,7 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader>
                           : widget.style.merge(item.style),
                     ),
                   ),
-                  Icon(
+                  item.hasIconData == true? Icon(
                     !_isShowDropDownItemWidget
                         ? item.iconData ?? Icons.arrow_drop_down
                         : item.iconData ?? Icons.arrow_drop_up,
@@ -177,7 +177,7 @@ class _GZXDropDownHeaderState extends State<GZXDropDownHeader>
                         ? _iconDropDownColor
                         : item?.style?.color ?? widget.iconColor,
                     size: item.iconSize ?? widget.iconSize,
-                  ),
+                  ):Container(),
                 ],
               ),
             ),
@@ -204,7 +204,8 @@ class GZXDropDownHeaderItem {
   final double iconSize;
   final TextStyle style;
   final bool hasOnPressed;
+  final bool hasIconData;
 
   GZXDropDownHeaderItem(this.title,
-      {this.iconData, this.iconSize, this.style, this.hasOnPressed});
+      {this.iconData, this.iconSize, this.style, this.hasOnPressed, this.hasIconData = true});
 }
